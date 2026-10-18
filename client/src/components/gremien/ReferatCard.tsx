@@ -10,13 +10,13 @@
 //   email    → contact
 //
 // On phones a long description is cut to ~5 lines with a "Mehr lesen" button
-// — otherwise the AStA page is ~12 phone screens tall. Desktop shows it all.
+// (CollapsibleText) — otherwise the AStA page is ~12 phone screens tall.
 
-import { useEffect, useId, useRef, useState } from "react";
-import { ChevronDown, Mail, Users } from "lucide-react";
+import { useState } from "react";
+import { Mail, Users } from "lucide-react";
 import type { PageSectionDTO } from "../../../../shared/types";
 import ImageLightbox from "@/components/ImageLightbox";
-import RichText from "@/components/RichText";
+import CollapsibleText from "@/components/CollapsibleText";
 import ObfuscatedMailLink from "@/components/ObfuscatedMailLink";
 
 interface ReferatCardProps {
@@ -25,39 +25,10 @@ interface ReferatCardProps {
 
 export default function ReferatCard({ section }: ReferatCardProps) {
   const [zoom, setZoom] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  // Whether the collapsed text is actually cut off. Short texts (and every
-  // text on desktop, where nothing is collapsed) don't get a button.
-  const [overflows, setOverflows] = useState(false);
-  const textRef = useRef<HTMLDivElement>(null);
-  const articleRef = useRef<HTMLElement>(null);
-  const textId = useId();
-
-  // Re-measure whenever the text box changes size (screen rotation, resize,
-  // expand/collapse). ResizeObserver also fires once right after observe().
-  useEffect(() => {
-    const el = textRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() =>
-      setOverflows(el.scrollHeight > el.clientHeight + 1),
-    );
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  function toggle() {
-    // Collapsing a long text would leave the reader far below this card, so
-    // jump back to its top if that is off-screen.
-    if (expanded && (articleRef.current?.getBoundingClientRect().top ?? 0) < 0) {
-      articleRef.current?.scrollIntoView({ block: "start" });
-    }
-    setExpanded((e) => !e);
-  }
 
   return (
     <article
-      ref={articleRef}
-      className="scroll-mt-20 rounded-2xl border border-gray-200 bg-white shadow-sm p-6 md:p-8 grid md:grid-cols-[1fr_260px] gap-6 md:gap-8 items-start"
+      className="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 md:p-8 grid md:grid-cols-[1fr_260px] gap-6 md:gap-8 items-start"
     >
       {/* Left: role + description */}
       <div>
@@ -69,44 +40,10 @@ export default function ReferatCard({ section }: ReferatCardProps) {
             {section.subtitle}
           </h3>
         </div>
-        <div className="relative">
-          <div
-            ref={textRef}
-            id={textId}
-            className={
-              expanded
-                ? undefined
-                : "max-h-32 overflow-hidden md:max-h-none md:overflow-visible"
-            }
-          >
-            <RichText
-              html={section.body ?? ""}
-              className="leading-relaxed max-w-prose"
-            />
-          </div>
-          {/* Fade the last visible line so the cut doesn't look like a bug. */}
-          {overflows && !expanded && (
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white md:hidden"
-              aria-hidden="true"
-            />
-          )}
-        </div>
-        {(overflows || expanded) && (
-          <button
-            type="button"
-            onClick={toggle}
-            aria-expanded={expanded}
-            aria-controls={textId}
-            className="md:hidden mt-3 inline-flex items-center gap-1 py-2 font-medium text-asta-red cursor-pointer"
-          >
-            {expanded ? "Weniger anzeigen" : "Mehr lesen"}
-            <ChevronDown
-              className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
-              aria-hidden="true"
-            />
-          </button>
-        )}
+        <CollapsibleText
+          html={section.body ?? ""}
+          className="leading-relaxed max-w-prose"
+        />
       </div>
 
       {/* Right: portrait person card. Phones: a compact row (photo beside

@@ -10,6 +10,7 @@
 import type { PageSectionDTO } from "../../../../shared/types";
 import SectionHeader from "@/components/SectionHeader";
 import RichText from "@/components/RichText";
+import CollapsibleText from "@/components/CollapsibleText";
 
 interface InfoSectionProps {
   section: PageSectionDTO;
@@ -76,9 +77,11 @@ export default function InfoSection({
           />
         </div>
       ) : (
-        <RichText
+        // Gremien intros are long — cut to ~7 lines on phones.
+        <CollapsibleText
           html={section.body ?? ""}
           className={`leading-relaxed ${bodyWidth}`}
+          collapsedHeight="max-h-48"
         />
       )}
     </div>

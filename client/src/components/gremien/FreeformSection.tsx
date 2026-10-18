@@ -9,7 +9,7 @@
 import type { ReactNode } from "react";
 import type { PageSectionDTO } from "../../../../shared/types";
 import SectionHeader from "@/components/SectionHeader";
-import RichText from "@/components/RichText";
+import CollapsibleText from "@/components/CollapsibleText";
 
 interface FreeformSectionProps {
   section: PageSectionDTO;
@@ -30,10 +30,12 @@ export default function FreeformSection({
   logo,
   aside,
 }: FreeformSectionProps) {
+  // Cut to ~7 lines on phones ("Mehr lesen"); full text on desktop.
   const text = (
-    <RichText
+    <CollapsibleText
       html={section.body ?? ""}
       className="leading-relaxed max-w-prose"
+      collapsedHeight="max-h-48"
     />
   );
 

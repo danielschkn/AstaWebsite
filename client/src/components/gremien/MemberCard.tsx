@@ -55,9 +55,14 @@ export default function MemberCard({
           />
         </button>
       )}
-      {section.caption && <p className="font-semibold mt-3">{section.caption}</p>}
+      {/* Smaller text on phones, where 3 cards share a row. */}
+      {section.caption && (
+        <p className="text-sm md:text-base font-semibold leading-tight mt-2 md:mt-3">
+          {section.caption}
+        </p>
+      )}
       {section.subtitle && !hideSubtitle && (
-        <p className="text-sm text-gray-600">{section.subtitle}</p>
+        <p className="text-xs md:text-sm text-gray-600">{section.subtitle}</p>
       )}
 
       <ImageLightbox

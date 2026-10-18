@@ -2,6 +2,8 @@
 //
 // Public StuPa page: hero + bands (Info, Mitglieder, Protokolle). The first
 // two MEMBER cards (Präsident & Vize) form the top row; the rest wrap below.
+// Phones: Präsident & Vize side by side (bigger), the others 3 per row —
+// one card per row made the list ~11 screens long.
 
 import { useEffect, useState } from "react";
 import type { PageDTO } from "../../../../shared/types";
@@ -62,13 +64,13 @@ export default function Stupa() {
       {members.length > 0 && (
         <Band id="mitglieder" alt>
           <SectionHeader title="Mitglieder" />
-          <div className="flex flex-wrap justify-center gap-10">
+          <div className="grid grid-cols-2 gap-x-4 justify-items-center max-w-sm mx-auto md:flex md:flex-wrap md:justify-center md:gap-10 md:max-w-none">
             {leadership.map((m) => (
               <MemberCard key={m.id} section={m} />
             ))}
           </div>
           {rest.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-10 mt-10">
+            <div className="grid grid-cols-3 gap-x-3 gap-y-6 justify-items-center mt-8 md:flex md:flex-wrap md:justify-center md:gap-10 md:mt-10">
               {rest.map((m) => (
                 <MemberCard key={m.id} section={m} />
               ))}

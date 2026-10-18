@@ -76,9 +76,8 @@ export default function Fachschaften() {
           : [];
         const memberGrid =
           bandMembers.length > 0 ? (
-            // As many columns as fit, each at least 9rem wide: 2 on a phone,
-            // 3 on desktop — no fixed count that overflows narrow screens.
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] gap-x-4 gap-y-8 justify-items-center">
+            // Always 3 per row; the cards shrink to fit (MemberCard is fluid).
+            <div className="grid grid-cols-3 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-8 justify-items-center">
               {bandMembers.map((m) => (
                 <MemberCard key={m.id} section={m} hideSubtitle compact />
               ))}
