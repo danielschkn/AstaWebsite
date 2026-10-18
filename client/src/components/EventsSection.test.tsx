@@ -97,9 +97,10 @@ describe("EventsSection", () => {
 
     renderSection();
 
+    // Phone list + desktop calendar tile (CSS shows one).
     expect(
-      await screen.findByText("Zur Zeit sind keine Events geplant."),
-    ).toBeInTheDocument();
+      await screen.findAllByText("Zur Zeit sind keine Events geplant."),
+    ).toHaveLength(2);
     expect(
       screen.getByText("Keine Protokolle vorhanden."),
     ).toBeInTheDocument();
