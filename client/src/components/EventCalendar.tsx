@@ -39,6 +39,32 @@ function formatListDate(iso: string): string {
   return `${day} · ${time} Uhr`;
 }
 
+/**
+ * Desktop grid poster. Without a poster — or when it fails to load (e.g. the
+ * file is missing from storage) — shows a red tile with the title instead,
+ * so the cell never shows a broken image or overflowing alt text.
+ */
+function CalendarPoster({ event }: { event: EventDTO }) {
+  const [failed, setFailed] = useState(false);
+  if (event.imageUrl && !failed) {
+    return (
+      <img
+        src={event.imageUrl}
+        alt={event.title}
+        loading="lazy"
+        decoding="async"
+        onError={() => setFailed(true)}
+        className="w-full aspect-[4/5] object-cover rounded"
+      />
+    );
+  }
+  return (
+    <div className="w-full aspect-[4/5] rounded bg-asta-red text-white text-[10px] leading-tight font-semibold p-1 flex items-center justify-center text-center overflow-hidden">
+      {event.title}
+    </div>
+  );
+}
+
 interface EventCalendarProps {
   events: EventDTO[];
   onSelect: (event: EventDTO) => void;
@@ -209,19 +235,7 @@ export default function EventCalendar({ events, onSelect }: EventCalendarProps) 
                     title={e.title}
                     className="block w-full cursor-pointer hover:opacity-90 transition-opacity"
                   >
-                    {e.imageUrl ? (
-                      <img
-                        src={e.imageUrl}
-                        alt={e.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full aspect-[4/5] object-cover rounded"
-                      />
-                    ) : (
-                      <div className="w-full aspect-[4/5] rounded bg-asta-red text-white text-[10px] leading-tight font-semibold p-1 flex items-center justify-center text-center">
-                        {e.title}
-                      </div>
-                    )}
+                    <CalendarPoster event={e} />
                   </button>
                 ))}
               </div>

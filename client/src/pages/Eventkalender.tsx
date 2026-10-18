@@ -133,7 +133,7 @@ export default function Eventkalender() {
       {/* Hero */}
       <PageHero
         image="/eventcalender-hero.jpg"
-        title="Eventcalender"
+        title="Eventkalender"
         subtitle="Entdecke folgende Veranstaltungen des AStA Remagen"
         compact
       />

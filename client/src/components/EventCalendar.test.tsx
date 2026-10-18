@@ -4,7 +4,7 @@
 // ±1-month navigation bounds.
 
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { EventDTO } from "../../../shared/types";
 import EventCalendar from "./EventCalendar";
@@ -38,6 +38,16 @@ describe("EventCalendar", () => {
     render(<EventCalendar events={[event]} onSelect={onSelect} />);
     await userEvent.click(screen.getByRole("button", { name: "Kalender Event" }));
     expect(onSelect).toHaveBeenCalledWith(event);
+  });
+
+  it("falls back to the title tile when a poster fails to load", () => {
+    render(<EventCalendar events={[event]} onSelect={vi.fn()} />);
+    fireEvent.error(screen.getByAltText("Kalender Event"));
+    expect(screen.queryByAltText("Kalender Event")).not.toBeInTheDocument();
+    // The title now shows as text inside the poster button.
+    expect(
+      screen.getByRole("button", { name: "Kalender Event" }),
+    ).toHaveTextContent("Kalender Event");
   });
 
   it("lists the month's events (phone list) and narrows to a tapped day", async () => {

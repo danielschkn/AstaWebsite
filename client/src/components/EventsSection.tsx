@@ -61,8 +61,10 @@ export default function EventsSection() {
             CSS Grid stretches row 2 → sidebar height = cards height. */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-0">
           {/* Heading row — spans 3 cols so right edge aligns with card 3 */}
-          <div className="lg:col-span-3 flex items-end justify-between mb-6">
-            <h2 className="text-3xl font-bold">Bevorstehende Events</h2>
+          {/* Stacked on phones — side by side the heading wrapped onto two
+              lines and squeezed the link into a narrow column. */}
+          <div className="lg:col-span-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold">Bevorstehende Events</h2>
             <Link
               to="/eventkalender"
               className="text-asta-red hover:text-asta-red-dark font-medium"

@@ -23,14 +23,16 @@ export default function Footer() {
       {/* Content sits on top of the watermark via z-10.
           Uneven columns: the Gremien-video column gets extra width (and the
           quick-links column a little less) so the video fills the space
-          between Schnelllinks and "Mein Bereich" instead of leaving a gap. */}
+          between Schnelllinks and "Mein Bereich" instead of leaving a gap.
+          Phones: 2 columns — contact full width, Schnelllinks next to Mein
+          Bereich, video last — instead of 4 stacked blocks. */}
       <div
         className="relative z-10 max-w-7xl mx-auto px-6 py-8
-                      grid grid-cols-1 gap-8
-                      md:grid-cols-[1fr_0.6fr_1.8fr_0.9fr]"
+                      grid grid-cols-2 gap-x-6 gap-y-8
+                      md:grid-cols-[1fr_0.6fr_1.8fr_0.9fr] md:gap-8"
       >
         {/* Col 1: org info + contact */}
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <h3 className="text-lg font-bold">AStA Remagen</h3>
           <p className="text-sm mt-1 opacity-90">
             Allgemeiner Studierendenausschuss
@@ -85,8 +87,9 @@ export default function Footer() {
         </div>
 
         {/* Col 3: "Über uns" video — a thumbnail linking out to YouTube in a
-            new tab. No iframe embed, so no YouTube cookies / cookie banner. */}
-        <div>
+            new tab. No iframe embed, so no YouTube cookies / cookie banner.
+            Last and full width on phones. */}
+        <div className="col-span-2 order-last md:col-span-1 md:order-none">
           <h3 className="text-lg font-bold mb-4">
             Was sind eigentlich die studentische Gremien?
           </h3>

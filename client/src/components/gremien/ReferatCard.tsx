@@ -57,7 +57,7 @@ export default function ReferatCard({ section }: ReferatCardProps) {
   return (
     <article
       ref={articleRef}
-      className="scroll-mt-20 rounded-2xl border border-gray-200 bg-white shadow-sm p-6 md:p-8 grid md:grid-cols-[1fr_260px] gap-8 items-start"
+      className="scroll-mt-20 rounded-2xl border border-gray-200 bg-white shadow-sm p-6 md:p-8 grid md:grid-cols-[1fr_260px] gap-6 md:gap-8 items-start"
     >
       {/* Left: role + description */}
       <div>
@@ -109,13 +109,14 @@ export default function ReferatCard({ section }: ReferatCardProps) {
         )}
       </div>
 
-      {/* Right: portrait person card */}
-      <div className="rounded-xl border border-gray-200 p-5 text-center">
+      {/* Right: portrait person card. Phones: a compact row (photo beside
+          the name); desktop: the portrait card from the design concept. */}
+      <div className="rounded-xl border border-gray-200 p-4 md:p-5 flex items-center gap-4 text-left md:block md:text-center">
         {section.imageUrl ? (
           <button
             type="button"
             onClick={() => setZoom(section.imageUrl)}
-            className="block mx-auto cursor-pointer"
+            className="block shrink-0 md:mx-auto cursor-pointer"
             aria-label="Foto vergrößern"
           >
             <img
@@ -123,30 +124,36 @@ export default function ReferatCard({ section }: ReferatCardProps) {
               alt={section.caption ?? section.subtitle ?? "Referat"}
               loading="lazy"
               decoding="async"
-              className="w-28 h-28 rounded-full object-cover hover:opacity-90 transition-opacity"
+              className="w-20 h-20 md:w-28 md:h-28 rounded-full object-cover hover:opacity-90 transition-opacity"
             />
           </button>
         ) : (
-          <div className="w-28 h-28 rounded-full bg-asta-red/10 mx-auto" aria-hidden />
+          <div
+            className="w-20 h-20 md:w-28 md:h-28 shrink-0 rounded-full bg-asta-red/10 md:mx-auto"
+            aria-hidden
+          />
         )}
-        {section.subtitle && (
-          <p className="text-asta-red font-semibold uppercase text-xs tracking-wide mt-3">
-            {section.subtitle}
-          </p>
-        )}
-        {section.caption && (
-          <p className="text-lg font-bold leading-tight">{section.caption}</p>
-        )}
-        {section.email && (
-          <ObfuscatedMailLink
-            email={section.email}
-            ariaLabel={`E-Mail an ${section.caption ?? section.subtitle ?? "Referat"}`}
-            className="inline-flex items-center justify-center gap-1 mt-3 text-sm text-gray-600 hover:text-asta-red"
-          >
-            <Mail className="h-4 w-4" />
-            E-Mail
-          </ObfuscatedMailLink>
-        )}
+        <div className="min-w-0">
+          {/* The role repeats the card heading, so phones skip it. */}
+          {section.subtitle && (
+            <p className="hidden md:block text-asta-red font-semibold uppercase text-xs tracking-wide mt-3">
+              {section.subtitle}
+            </p>
+          )}
+          {section.caption && (
+            <p className="text-lg font-bold leading-tight">{section.caption}</p>
+          )}
+          {section.email && (
+            <ObfuscatedMailLink
+              email={section.email}
+              ariaLabel={`E-Mail an ${section.caption ?? section.subtitle ?? "Referat"}`}
+              className="inline-flex items-center justify-center gap-1 mt-1 md:mt-3 py-1 text-sm text-gray-600 hover:text-asta-red"
+            >
+              <Mail className="h-4 w-4" />
+              E-Mail
+            </ObfuscatedMailLink>
+          )}
+        </div>
       </div>
 
       <ImageLightbox
