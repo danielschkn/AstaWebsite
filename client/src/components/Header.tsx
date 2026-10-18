@@ -69,13 +69,15 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      {/* Slimmer bar on phones (h-16 = 64px vs 80px): it's sticky, so its
+          height is lost from every screen of every page. */}
+      <div className="max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
         {/*Left: logo */}
         <Link to="/">
           <img
             src="/asta-logo.png"
             alt="AStA Remagen"
-            className="h-16 w-auto"
+            className="h-12 md:h-16 w-auto"
           />
         </Link>
 
@@ -207,7 +209,7 @@ function MobileMenu({ user }: { user: ReturnType<typeof useAuth>["user"] }) {
   return (
     <div
       id="mobile-menu"
-      className="md:hidden border-t border-gray-200 bg-white max-h-[calc(100vh-5rem)] overflow-y-auto"
+      className="md:hidden border-t border-gray-200 bg-white max-h-[calc(100dvh-4rem)] overflow-y-auto"
     >
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <NavLink to="/" end className={itemClass}>

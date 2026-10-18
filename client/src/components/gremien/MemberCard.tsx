@@ -30,16 +30,20 @@ export default function MemberCard({
 }: MemberCardProps) {
   const [zoom, setZoom] = useState<string | null>(null);
 
-  const cardWidth = compact ? "w-44" : "w-48";
-  const photoSize = compact ? "w-36 h-36" : "w-40 h-40";
+  // Fluid sizes: fill the available width but never grow past the old fixed
+  // size. Fixed widths overflowed narrow screens (3 × w-44 > a phone).
+  const cardWidth = compact ? "max-w-44" : "max-w-48";
+  const photoWidth = compact ? "max-w-36" : "max-w-40";
 
   return (
-    <article className={`flex flex-col items-center text-center ${cardWidth}`}>
+    <article
+      className={`flex flex-col items-center text-center w-full ${cardWidth}`}
+    >
       {section.imageUrl && (
         <button
           type="button"
           onClick={() => setZoom(section.imageUrl)}
-          className="cursor-pointer"
+          className={`cursor-pointer w-full ${photoWidth}`}
           aria-label="Foto vergrößern"
         >
           <img
@@ -47,7 +51,7 @@ export default function MemberCard({
             alt={section.caption ?? section.subtitle ?? "Mitglied"}
             loading="lazy"
             decoding="async"
-            className={`${photoSize} rounded-full object-cover hover:opacity-90 transition-opacity`}
+            className="w-full aspect-square rounded-full object-cover hover:opacity-90 transition-opacity"
           />
         </button>
       )}
