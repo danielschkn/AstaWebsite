@@ -123,8 +123,10 @@ export default function Eventkalender() {
     setSearchOpen(false);
   }
 
+  // text-base on phones: iOS zooms the page in when an input under 16px is
+  // focused. w-full fills the 2-column filter grid on phones.
   const selectClass =
-    "border border-gray-300 rounded px-3 py-2 text-sm bg-white";
+    "w-full md:w-auto border border-gray-300 rounded px-3 py-2 text-base md:text-sm bg-white";
 
   return (
     <div>
@@ -137,8 +139,9 @@ export default function Eventkalender() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Search + filters */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        {/* Search + filters: a tidy 2-column grid on phones (search full
+            width, dropdowns 2×2), one wrapping row from md up. */}
+        <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:items-center md:gap-3 mb-6">
           <input
             type="search"
             value={query}
@@ -152,7 +155,7 @@ export default function Eventkalender() {
             }}
             placeholder="Event suchen…"
             aria-label="Event suchen"
-            className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-2 text-sm"
+            className="col-span-2 md:flex-1 md:min-w-48 border border-gray-300 rounded px-3 py-2 text-base md:text-sm"
           />
 
           <select
@@ -209,11 +212,11 @@ export default function Eventkalender() {
           </select>
 
           {/* Active / expired toggle */}
-          <div className="inline-flex rounded border border-gray-300 overflow-hidden text-sm">
+          <div className="flex rounded border border-gray-300 overflow-hidden text-sm">
             <button
               type="button"
               onClick={() => setStatus("active")}
-              className={`px-3 py-2 cursor-pointer ${
+              className={`flex-1 px-3 py-2 cursor-pointer ${
                 status === "active" ? "bg-asta-red text-white" : "bg-white"
               }`}
             >
@@ -222,7 +225,7 @@ export default function Eventkalender() {
             <button
               type="button"
               onClick={() => setStatus("expired")}
-              className={`px-3 py-2 cursor-pointer ${
+              className={`flex-1 px-3 py-2 cursor-pointer ${
                 status === "expired" ? "bg-asta-red text-white" : "bg-white"
               }`}
             >
