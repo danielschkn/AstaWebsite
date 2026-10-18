@@ -13,6 +13,7 @@ import { selectUpcoming } from "@/lib/events";
 import { useFavorites } from "@/auth/FavoritesContext";
 import EventCard from "@/components/EventCard";
 import EventDialog from "@/components/EventDialog";
+import EventListItem from "@/components/EventListItem";
 import GremiumBadge from "@/components/GremiumBadge";
 
 /** "15. April 2026" — date-only, German, for the protocols sidebar. */
@@ -73,8 +74,24 @@ export default function EventsSection() {
             </Link>
           </div>
 
-          {/* Cards row — 3-up grid spanning cols 1-3 */}
-          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Phones: compact rows (same as the calendar's phone list) — a
+              full poster card filled the whole screen per event. */}
+          {upcoming.length > 0 && (
+            <ul className="md:hidden space-y-3 mb-6">
+              {upcoming.map((event) => (
+                <li key={event.id}>
+                  <EventListItem event={event} onClick={setSelected} now={now} />
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* Cards row (md+) — 3-up grid spanning cols 1-3 */}
+          <div
+            className={`lg:col-span-3 grid-cols-1 md:grid-cols-3 gap-6 ${
+              upcoming.length === 0 ? "grid" : "hidden md:grid"
+            }`}
+          >
             {upcoming.length === 0 ? (
               <p className="text-gray-500">Zur Zeit sind keine Events geplant.</p>
             ) : (

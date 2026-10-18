@@ -77,11 +77,12 @@ describe("EventsSection", () => {
 
     renderSection();
 
-    expect(await screen.findByText("Future Party")).toBeInTheDocument();
+    // Rendered twice: as a phone row and as a desktop card (CSS shows one).
+    expect(await screen.findAllByText("Future Party")).toHaveLength(2);
     // Past event is filtered out.
     expect(screen.queryByText("Past Party")).not.toBeInTheDocument();
     // Countdown badge rendered.
-    expect(screen.getByText(/noch \d/)).toBeInTheDocument();
+    expect(screen.getAllByText(/noch \d/)).toHaveLength(2);
     // Protocol shows up with a download link to its file.
     const link = await screen.findByText("AStA-Sitzung Protokoll");
     expect(link.closest("a")).toHaveAttribute(

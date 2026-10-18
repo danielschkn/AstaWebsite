@@ -11,6 +11,7 @@
 
 import { useRef, useState } from "react";
 import type { EventDTO } from "../../../shared/types";
+import EventListItem from "@/components/EventListItem";
 
 const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
@@ -22,21 +23,6 @@ function dayKey(d: Date): string {
 /** "11. September" — day + month name, for labels. */
 function formatDayMonth(d: Date): string {
   return d.toLocaleDateString("de-DE", { day: "numeric", month: "long" });
-}
-
-/** "Fr., 11.09. · 18:30 Uhr" — compact date for the phone list. */
-function formatListDate(iso: string): string {
-  const d = new Date(iso);
-  const day = d.toLocaleDateString("de-DE", {
-    weekday: "short",
-    day: "2-digit",
-    month: "2-digit",
-  });
-  const time = d.toLocaleTimeString("de-DE", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  return `${day} · ${time} Uhr`;
 }
 
 /**
@@ -264,39 +250,7 @@ export default function EventCalendar({ events, onSelect }: EventCalendarProps) 
           <ul className="space-y-3">
             {listEvents.map((e) => (
               <li key={e.id}>
-                <button
-                  type="button"
-                  onClick={() => onSelect(e)}
-                  className="flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white p-2 text-left cursor-pointer hover:shadow-sm"
-                >
-                  {/* Light-red placeholder box; the poster sits on top. A
-                      poster that fails to load is hidden so the placeholder
-                      shows instead of a broken-image icon. alt="" — the
-                      title is right next to it as text. */}
-                  <span className="h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-asta-red/10">
-                    {e.imageUrl && (
-                      <img
-                        src={e.imageUrl}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        onError={(ev) => (ev.currentTarget.style.visibility = "hidden")}
-                        className="h-full w-full object-cover"
-                      />
-                    )}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-medium text-asta-red">
-                      {formatListDate(e.startsAt)}
-                    </span>
-                    <span className="block font-semibold truncate">
-                      {e.title}
-                    </span>
-                    <span className="block text-sm text-gray-600 truncate">
-                      {e.place}
-                    </span>
-                  </span>
-                </button>
+                <EventListItem event={e} onClick={onSelect} />
               </li>
             ))}
           </ul>
