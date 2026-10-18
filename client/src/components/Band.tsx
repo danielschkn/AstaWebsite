@@ -11,15 +11,15 @@ interface BandProps {
   id?: string;
   /** Light-grey background instead of white (for alternating bands). */
   alt?: boolean;
+  /** Brand-red background with white text — a strong break between bands. */
+  red?: boolean;
   children: ReactNode;
 }
 
-export default function Band({ id, alt, children }: BandProps) {
+export default function Band({ id, alt, red, children }: BandProps) {
+  const bg = red ? "bg-asta-red text-white" : alt ? "bg-gray-50" : "bg-white";
   return (
-    <section
-      id={id}
-      className={`scroll-mt-20 py-12 md:py-16 ${alt ? "bg-gray-50" : "bg-white"}`}
-    >
+    <section id={id} className={`scroll-mt-20 py-12 md:py-16 ${bg}`}>
       <div className="max-w-7xl mx-auto px-6">{children}</div>
     </section>
   );

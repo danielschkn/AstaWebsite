@@ -83,12 +83,18 @@ describe("ErstiInfo", () => {
   it("toggles a step checkbox and persists it (by section id) to localStorage", async () => {
     renderPage();
     await screen.findByText("Uni-Account aktivieren");
-    const firstBox = screen.getAllByRole("checkbox")[0];
+    const boxes = screen.getAllByRole("checkbox");
+    const firstBox = boxes[0];
     expect(firstBox).not.toBeChecked();
+    const progress = screen.getByRole("progressbar", { name: /Fortschritt/ });
+    expect(progress).toHaveAttribute("aria-valuenow", "0");
 
     await userEvent.click(firstBox);
 
     expect(firstBox).toBeChecked();
+    // The progress counter + bar follow the ticked boxes.
+    expect(progress).toHaveAttribute("aria-valuenow", "1");
+    expect(screen.getByText(`1 von ${boxes.length} erledigt`)).toBeInTheDocument();
     expect(localStorage.getItem("ersti-erste-schritte-done")).toContain("step-1");
   });
 });

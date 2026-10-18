@@ -7,18 +7,27 @@
 // The "Erste Schritte" steps, the FAQ and the "Fristen & Termine" block are
 // editor-managed (Seiteninhalte → Ersti-Info) and loaded from the API; the
 // launchpad, insider tips, glossary and help cards are static.
+//
+// Look: every section title has a red icon badge, "Wo bekomme ich Hilfe?" is
+// a full red band to break up the page, and the checklist shows a red
+// progress bar. On phones the launchpad is a 2×2 grid of compact tiles.
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
+  BookA,
   CalendarClock,
+  CircleHelp,
   ClipboardList,
   Download,
   ExternalLink,
   FileText,
   Globe,
+  Lightbulb,
+  LifeBuoy,
+  ListChecks,
   Mail,
   MapPin,
   Megaphone,
@@ -187,24 +196,24 @@ export default function ErstiInfo() {
 
       {/* Launchpad — an elevated card directly below the hero. */}
       <section className="mx-auto max-w-7xl px-6 pt-10 md:pt-12">
-        <div className="grid gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 rounded-2xl border border-gray-200 border-t-4 border-t-asta-red bg-white p-2 shadow-sm sm:gap-4 sm:p-4 lg:grid-cols-4">
           {QUICK_LINKS.map(({ name, desc, href, Icon }) => (
             <a
               key={name}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-start gap-4 rounded-xl p-4 transition hover:bg-asta-red/5"
+              className="group flex flex-col items-start gap-2 rounded-xl p-3 transition hover:bg-asta-red/5 sm:flex-row sm:gap-4 sm:p-4"
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-asta-red/10 text-asta-red">
-                <Icon className="h-6 w-6" />
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-asta-red/10 text-asta-red sm:h-12 sm:w-12">
+                <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
               </span>
               <span className="min-w-0">
                 <span className="flex items-center gap-1 font-semibold">
                   {name}
                   <ExternalLink className="h-3.5 w-3.5 text-gray-400 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-                <span className="mt-0.5 block text-sm text-gray-600">{desc}</span>
+                <span className="mt-0.5 block text-xs text-gray-600 sm:text-sm">{desc}</span>
               </span>
             </a>
           ))}
@@ -222,6 +231,7 @@ export default function ErstiInfo() {
         <div className="grid gap-10 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <SectionHeader
+              icon={ListChecks}
               title="Deine ersten Schritte"
               subtitle="Hak ab, was du schon erledigt hast – dein Fortschritt bleibt auf diesem Gerät gespeichert."
             />
@@ -233,7 +243,7 @@ export default function ErstiInfo() {
           </div>
 
           <div id="fristen">
-            <SectionHeader title="Fristen & Termine" />
+            <SectionHeader icon={CalendarClock} title="Fristen & Termine" />
             <FristenCard fristen={fristen} />
           </div>
         </div>
@@ -241,15 +251,18 @@ export default function ErstiInfo() {
 
       {/* Insider tips. */}
       <Band id="tipps" alt>
-        <SectionHeader title="Insider-Tipps" />
+        <SectionHeader icon={Lightbulb} title="Insider-Tipps" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TIPS.map(({ Icon, title, text }) => (
-            <div key={title} className="rounded-2xl border border-gray-200 bg-white p-5">
-              <span className="grid h-10 w-10 place-items-center rounded-lg bg-asta-red/10 text-asta-red">
+            // Phones: icon beside the text (shorter cards); sm+: icon on top.
+            <div key={title} className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-5 sm:block">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-asta-red/10 text-asta-red">
                 <Icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-3 font-semibold">{title}</h3>
-              <p className="mt-1 text-sm text-gray-600">{text}</p>
+              <div>
+                <h3 className="font-semibold sm:mt-3">{title}</h3>
+                <p className="mt-1 text-sm text-gray-600">{text}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -265,9 +278,11 @@ export default function ErstiInfo() {
         </p>
       </Band>
 
-      {/* Who to ask. */}
-      <Band id="hilfe">
+      {/* Who to ask — a red band as a strong break in the middle of the page. */}
+      <Band id="hilfe" red>
         <SectionHeader
+          icon={LifeBuoy}
+          inverted
           title="Wo bekomme ich Hilfe?"
           subtitle="Du musst nichts allein herausfinden – das sind deine Anlaufstellen."
         />
@@ -281,13 +296,13 @@ export default function ErstiInfo() {
       {/* FAQ (2-up) + glossary. */}
       {faqs.length > 0 && (
         <Band id="faq" alt>
-          <SectionHeader title="Häufige Fragen" />
+          <SectionHeader icon={CircleHelp} title="Häufige Fragen" />
           <div className="grid gap-3 md:grid-cols-2">
             {faqs.map((f) => (
-              <details key={f.id} className="group rounded-lg border border-gray-200 bg-white p-4">
+              <details key={f.id} className="group rounded-lg border border-gray-200 bg-white p-4 open:border-asta-red">
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
                   {f.subtitle ?? "Frage"}
-                  <ArrowRight className="h-4 w-4 shrink-0 text-gray-400 transition-transform group-open:rotate-90" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-gray-400 transition-transform group-open:rotate-90 group-open:text-asta-red" />
                 </summary>
                 <RichText html={f.body ?? ""} className="prose-sm mt-2" />
               </details>
@@ -298,13 +313,14 @@ export default function ErstiInfo() {
 
       <Band id="glossar">
         <SectionHeader
+          icon={BookA}
           title="Uni-Vokabular"
           subtitle="Die Abkürzungen, die am Anfang alle verwirren."
         />
         <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {GLOSSARY.map(([term, def]) => (
             <div key={term}>
-              <dt className="font-semibold">{term}</dt>
+              <dt className="font-semibold text-asta-red">{term}</dt>
               <dd className="text-sm text-gray-600">{def}</dd>
             </div>
           ))}
@@ -341,27 +357,56 @@ function StepsChecklist({ steps }: { steps: PageSectionDTO[] }) {
     );
   }
 
+  const doneCount = steps.filter((s) => doneIds.includes(s.id)).length;
+
   return (
-    <ol className="space-y-2">
-      {steps.map((s) => {
-        const done = doneIds.includes(s.id);
-        return (
-          <li key={s.id}>
-            <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-white p-3 hover:border-asta-red">
-              <input
-                type="checkbox"
-                checked={done}
-                onChange={() => toggle(s.id)}
-                className="mt-0.5 h-5 w-5 shrink-0 accent-asta-red cursor-pointer"
-              />
-              <span className={done ? "line-through opacity-50" : ""}>
-                <RichText html={s.body ?? ""} className="prose-sm prose-p:my-0 text-gray-800" />
-              </span>
-            </label>
-          </li>
-        );
-      })}
-    </ol>
+    <>
+      {/* Progress: "3 von 7 erledigt" + a red bar. */}
+      <div className="mb-4">
+        <p className="flex justify-between text-sm font-medium text-gray-700">
+          <span>
+            {doneCount} von {steps.length} erledigt
+          </span>
+          {doneCount === steps.length && (
+            <span className="text-asta-red">Alles erledigt!</span>
+          )}
+        </p>
+        <div
+          role="progressbar"
+          aria-label="Fortschritt der ersten Schritte"
+          aria-valuemin={0}
+          aria-valuemax={steps.length}
+          aria-valuenow={doneCount}
+          className="mt-1.5 h-2 overflow-hidden rounded-full bg-gray-200"
+        >
+          <div
+            className="h-full rounded-full bg-asta-red transition-[width]"
+            style={{ width: `${(doneCount / steps.length) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <ol className="space-y-2">
+        {steps.map((s) => {
+          const done = doneIds.includes(s.id);
+          return (
+            <li key={s.id}>
+              <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-white p-3 hover:border-asta-red">
+                <input
+                  type="checkbox"
+                  checked={done}
+                  onChange={() => toggle(s.id)}
+                  className="mt-0.5 h-5 w-5 shrink-0 accent-asta-red cursor-pointer"
+                />
+                <span className={done ? "line-through opacity-50" : ""}>
+                  <RichText html={s.body ?? ""} className="prose-sm prose-p:my-0 text-gray-800" />
+                </span>
+              </label>
+            </li>
+          );
+        })}
+      </ol>
+    </>
   );
 }
 
@@ -436,7 +481,7 @@ function HelpCard({ item }: { item: HelpItem }) {
   );
 
   const className =
-    "group block rounded-2xl border border-gray-200 bg-white p-5 transition hover:border-asta-red hover:shadow-sm";
+    "group block rounded-2xl border border-gray-200 bg-white p-5 text-gray-900 transition hover:border-asta-red hover:shadow-md";
 
   return item.to ? (
     <Link to={item.to} className={className}>
