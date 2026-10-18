@@ -33,3 +33,8 @@ for (const proto of [Range.prototype, Element.prototype]) {
 if (!document.elementFromPoint) {
   document.elementFromPoint = () => null
 }
+// jsdom doesn't scroll either; components that scroll into view on click
+// (e.g. the calendar's phone list) just need the call not to throw.
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => {}
+}

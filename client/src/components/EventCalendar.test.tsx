@@ -40,6 +40,32 @@ describe("EventCalendar", () => {
     expect(onSelect).toHaveBeenCalledWith(event);
   });
 
+  it("lists the month's events (phone list) and narrows to a tapped day", async () => {
+    const second: EventDTO = {
+      ...event,
+      id: "cal2",
+      title: "Zweites Event",
+      startsAt: new Date(today.getFullYear(), today.getMonth(), 20, 18, 0).toISOString(),
+    };
+    const monthName = today.toLocaleDateString("de-DE", { month: "long" });
+    render(<EventCalendar events={[event, second]} onSelect={vi.fn()} />);
+
+    // Whole month by default.
+    expect(screen.getByRole("heading", { name: `Events im ${monthName}` })).toBeInTheDocument();
+    expect(screen.getByText("Zweites Event")).toBeInTheDocument();
+
+    // Tap the 15th → only that day's event remains.
+    await userEvent.click(
+      screen.getByRole("button", { name: `1 Event am 15. ${monthName}` }),
+    );
+    expect(screen.getByRole("heading", { name: `Events am 15. ${monthName}` })).toBeInTheDocument();
+    expect(screen.queryByText("Zweites Event")).not.toBeInTheDocument();
+
+    // "Ganzer Monat" resets the filter.
+    await userEvent.click(screen.getByRole("button", { name: "Ganzer Monat" }));
+    expect(screen.getByText("Zweites Event")).toBeInTheDocument();
+  });
+
   it("limits navigation to one month back and forward", async () => {
     render(<EventCalendar events={[]} onSelect={vi.fn()} />);
     const prev = screen.getByRole("button", { name: "Vorheriger Monat" });
