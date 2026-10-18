@@ -1,6 +1,6 @@
 // client/src/components/Header.tsx
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import {
@@ -58,14 +58,16 @@ const gremienSections = [
 export default function Header() {
   // EDITORs get an "Admin" entry in the central nav (right of Sport).
   const { user } = useAuth();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Close the mobile menu whenever the route (path or hash) changes, so a
-  // tap on a link dismisses the panel without per-link handlers.
+  // The mobile menu remembers the route (path + hash) it was opened on and
+  // counts as open only while we're still there. Tapping a link changes the
+  // route, so the panel closes by itself — no per-link handlers, and no
+  // effect that sets state after every navigation.
   const location = useLocation();
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname, location.hash]);
+  const route = location.pathname + location.hash;
+  const [openedOn, setOpenedOn] = useState<string | null>(null);
+  const mobileOpen = openedOn === route;
+  const setMobileOpen = (open: boolean) => setOpenedOn(open ? route : null);
 
   return (
     <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
@@ -185,7 +187,7 @@ export default function Header() {
           aria-label={mobileOpen ? "Menü schließen" : "Menü öffnen"}
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
-          onClick={() => setMobileOpen((o) => !o)}
+          onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? (
             <X className="h-7 w-7" />

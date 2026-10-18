@@ -169,6 +169,12 @@ describe("Header", () => {
     expect(
       screen.getByRole("button", { name: "Menü schließen" }),
     ).toBeInTheDocument();
+
+    // Tapping a link navigates, which closes the panel by itself.
+    await user.click(
+      within(panel as HTMLElement).getByRole("link", { name: "BaRACke" }),
+    );
+    expect(document.getElementById("mobile-menu")).toBeNull();
   });
 
   it("renders no auth controls while loading", () => {
