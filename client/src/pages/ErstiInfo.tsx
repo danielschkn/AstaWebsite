@@ -189,7 +189,7 @@ export default function ErstiInfo() {
   return (
     <div>
       <PageHero
-        image="/campus-photo.jpg"
+        image="/erstipage-hero.webp"
         title="Ersti-Info"
         subtitle="Neu am RheinAhrCampus? Alles Wichtige an einem Ort."
       />
