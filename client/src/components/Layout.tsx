@@ -1,10 +1,18 @@
 // client/src/components/Layout.tsx
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToHash from "./ScrollToHash";
+import { pageTitle } from "@/lib/pageTitles";
 
 export default function Layout() {
+  // Per-page browser-tab / Google title (see lib/pageTitles.ts).
+  const { pathname } = useLocation();
+  useEffect(() => {
+    document.title = pageTitle(pathname);
+  }, [pathname]);
+
   return (
     // min-h-screen + flex column lets the footer sink to the bottom of the
     // viewport on short pages (main grows to fill the gap) instead of floating

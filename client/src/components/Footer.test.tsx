@@ -4,7 +4,7 @@
 // the hook — useAuth throws outside an AuthProvider.
 
 import { beforeEach, describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Footer from "./Footer";
 
@@ -39,6 +39,21 @@ describe("Footer", () => {
     expect(screen.getByRole("link", { name: "Datenschutz" })).toHaveAttribute(
       "href",
       "/datenschutz",
+    );
+  });
+
+  it("has a bug-report mail link that reveals its address only on interaction", () => {
+    renderFooter();
+    const link = screen.getByRole("link", {
+      name: "Fehler auf der Website melden (E-Mail)",
+    });
+    // Spam protection: no address in the markup before interaction.
+    expect(link).toHaveAttribute("href", "#");
+
+    fireEvent.focus(link);
+    expect(link).toHaveAttribute(
+      "href",
+      `mailto:dschukin@hs-koblenz.de?subject=${encodeURIComponent("Fehler auf asta-rac.com")}`,
     );
   });
 

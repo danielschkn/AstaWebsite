@@ -195,6 +195,18 @@ export default function Footer() {
           <Link to="/barrierefreiheit" className="hover:underline">
             Barrierefreiheit
           </Link>
+          {/* Bug reports go to the site's developer. Obfuscated like every
+              other address (spam protection); subject pre-filled. Change the
+              address when maintenance is handed over. */}
+          <ObfuscatedMailLink
+            user="dschukin"
+            domain="hs-koblenz.de"
+            subject="Fehler auf asta-rac.com"
+            ariaLabel="Fehler auf der Website melden (E-Mail)"
+            className="hover:underline sm:ml-auto"
+          >
+            Fehler gefunden? Schreib uns
+          </ObfuscatedMailLink>
         </div>
       </div>
     </footer>
