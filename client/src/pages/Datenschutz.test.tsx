@@ -21,6 +21,7 @@ describe("Datenschutz", () => {
       screen.getByRole("heading", { name: /verantwortlichen Stelle/i }),
     ).toBeInTheDocument();
     // Our actual hosting provider is named.
-    expect(screen.getByText(/netcup GmbH/i)).toBeInTheDocument();
+    expect(screen.getByText(/Render Services, Inc\./)).toBeInTheDocument();
+    expect(screen.queryByText(/netcup/i)).not.toBeInTheDocument();
   });
 });

@@ -4,12 +4,13 @@
 // processes; the binding text must be reviewed and completed by the AStA +
 // the Hochschule's Datenschutzbeauftragte/r before launch.
 //
-// ⚠️ Placeholders in [eckigen Klammern] must be filled:
-//   - the Datenschutzbeauftragte/r (Hochschule) contact, and
-//   - confirmation of whether any processor stores data outside the EU
-//     (Render/Cloudflare/Neon regions) and the transfer mechanism if so.
+// Hosting (checked Oct 2026): web server on Render, region Frankfurt (EU);
+// database on Neon, region eu-central-1 (Frankfurt); uploads on Cloudflare
+// R2. Render and Cloudflare are US companies, so US transfers are covered by
+// their DPAs (Standardvertragsklauseln / EU-US Data Privacy Framework).
+// If a service moves region or provider, update section 2 "Hosting".
 
-const STAND = "Juni 2026";
+const STAND = "Oktober 2026";
 
 export default function Datenschutz() {
   return (
@@ -105,7 +106,15 @@ export default function Datenschutz() {
         und unsere Weisungen in Bezug auf diese Daten befolgen.
       </p>{" "}
       <p>Wir setzen folgende(n) Hoster ein:</p>
-      <p>netcup GmbH (Deutschland)</p>
+      <p>
+        <strong>Render</strong> (Render Services, Inc., USA) &ndash; Betrieb
+        des Webservers, der diese Website ausliefert. Serverstandort: EU
+        (Frankfurt). Da der Anbieter seinen Sitz in den USA hat, ist eine
+        &Uuml;bermittlung von Daten in die USA nicht ausgeschlossen; hierf&uuml;r
+        bestehen Standardvertragsklauseln der EU-Kommission
+        (Art.&nbsp;46 Abs.&nbsp;2 lit.&nbsp;c DSGVO) als Bestandteil des
+        Auftragsverarbeitungsvertrags des Anbieters.
+      </p>
       <p>Zus&auml;tzlich setzen wir folgende Auftragsverarbeiter ein:</p>
       <ul>
         <li>
