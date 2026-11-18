@@ -69,6 +69,9 @@ import {
   storeAvatarImage,
 } from "./upload/avatarImages.js";
 import { createPrismaClient } from "./db.js";
+import { PushSubscribeInput, PushUnsubscribeInput } from "./push/schemas.js";
+import { buildNewEventPayload } from "./push/payload.js";
+import { sendPushToAll, vapidPublicKey } from "./push/send.js";
 
 export const prisma = createPrismaClient();
 export const app = express();
@@ -135,6 +138,16 @@ app.post(
         imageUrl,
       },
     });
+
+    // Push "Neues Event" to all subscribers — only for upcoming events and
+    // only if the editor left "Abonnenten benachrichtigen" ticked (multipart
+    // field notify="true"). Fire-and-forget: the editor's response doesn't
+    // wait for the pushes, and a push failure never fails the save.
+    if (req.body.notify === "true" && event.startsAt.getTime() > Date.now()) {
+      void sendPushToAll(prisma, buildNewEventPayload(event)).catch((err) => {
+        console.error("[push] new-event notification failed:", err);
+      });
+    }
 
     return res.status(201).json(toEventDTO(event));
   },
@@ -983,6 +996,49 @@ app.post(
     return res.json(sections.map(toPageSectionDTO));
   },
 );
+
+// ─── Push notifications (public, no login) ─────────────────────────────
+//
+// Browsers subscribe anonymously to "new event" notifications. See
+// server/push/ for validation, payload and sending, and client/src/lib/push.ts
+// for the browser side.
+
+// The public half of our key pair; 503 when push isn't configured on this
+// server (the website then simply hides the notification button).
+app.get("/api/push/public-key", (_req: Request, res: Response) => {
+  const publicKey = vapidPublicKey();
+  if (!publicKey) {
+    return res.status(503).json({ error: "Push notifications are not configured" });
+  }
+  return res.json({ publicKey });
+});
+
+// Store (or refresh) a browser's subscription. Idempotent per endpoint.
+app.post("/api/push/subscribe", async (req: Request, res: Response) => {
+  const parsed = PushSubscribeInput.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues[0].message });
+  }
+  const { endpoint, keys } = parsed.data;
+  await prisma.pushSubscription.upsert({
+    where: { endpoint },
+    create: { endpoint, p256dh: keys.p256dh, auth: keys.auth },
+    update: { p256dh: keys.p256dh, auth: keys.auth },
+  });
+  return res.status(201).json({ ok: true });
+});
+
+// Remove a subscription ("Benachrichtigungen aus"). 204 even if unknown.
+app.post("/api/push/unsubscribe", async (req: Request, res: Response) => {
+  const parsed = PushUnsubscribeInput.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues[0].message });
+  }
+  await prisma.pushSubscription.deleteMany({
+    where: { endpoint: parsed.data.endpoint },
+  });
+  return res.status(204).end();
+});
 
 // ─── Serve the built frontend (production) ─────────────────────────────
 //

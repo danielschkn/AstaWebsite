@@ -26,5 +26,8 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  // The service worker runs without a page (no DOM) — it's type-checked
+  // separately with worker types in tsconfig.sw.json.
+  "exclude": ["src/sw.ts"]
 }

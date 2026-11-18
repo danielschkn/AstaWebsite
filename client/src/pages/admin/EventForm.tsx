@@ -77,6 +77,9 @@ export default function EventForm({ event }: EventFormProps) {
   const [registrationEmail, setRegistrationEmail] = useState(
     event?.registrationEmail ?? "",
   );
+  // New events only: push "Neues Event" to everyone who turned on
+  // notifications. On by default; untick for test/backdated entries.
+  const [notify, setNotify] = useState(true);
 
   /** Add/remove a referat tag from the selection. */
   function toggleCategory(value: string) {
@@ -151,6 +154,8 @@ export default function EventForm({ event }: EventFormProps) {
         categories,
         // "" = no registration required.
         registrationEmail: registrationEmail.trim(),
+        // Only meaningful when creating (edits never notify).
+        ...(isEdit ? {} : { notify }),
       };
 
       if (isEdit) {
@@ -380,6 +385,25 @@ export default function EventForm({ event }: EventFormProps) {
               </button>
             )}
           </div>
+
+          {!isEdit && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-3">
+              <input
+                type="checkbox"
+                checked={notify}
+                onChange={(e) => setNotify(e.target.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 accent-asta-red cursor-pointer"
+              />
+              <span>
+                <span className="font-medium">Abonnenten benachrichtigen</span>
+                <span className="block text-sm text-gray-600">
+                  Alle, die Benachrichtigungen eingeschaltet haben, bekommen
+                  sofort eine Push-Nachricht zu diesem Event (nur bei Events in
+                  der Zukunft). Für Test-Einträge abwählen.
+                </span>
+              </span>
+            </label>
+          )}
 
           {error && (
             <p className="text-red-600 text-sm" role="alert">

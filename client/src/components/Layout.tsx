@@ -4,6 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToHash from "./ScrollToHash";
+import OfflineBanner from "./OfflineBanner";
 import { pageTitle } from "@/lib/pageTitles";
 
 export default function Layout() {
@@ -28,6 +29,7 @@ export default function Layout() {
         Zum Inhalt springen
       </a>
       <Header />
+      <OfflineBanner />
       {/* tabIndex=-1 lets the skip link move focus here without making it a
           tab stop in normal navigation. */}
       <main id="main" tabIndex={-1} className="flex-1 outline-none">

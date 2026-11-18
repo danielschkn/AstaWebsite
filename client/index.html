@@ -11,6 +11,14 @@
     />
     <meta name="theme-color" content="#9d1006" />
 
+    <!-- Installed app (PWA). The manifest link is added automatically at
+         build time by vite-plugin-pwa (see vite.config.ts). iPhones ignore
+         the manifest icons and need these extra tags. -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AStA Remagen" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
     <!-- Link preview (Instagram, WhatsApp, Facebook, LinkedIn …).
          These crawlers don't run JavaScript, so the tags must live here in
          the static HTML; they are the same for every page. og:image and

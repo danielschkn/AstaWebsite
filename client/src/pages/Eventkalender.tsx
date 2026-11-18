@@ -16,6 +16,7 @@ import EventCalendar from "@/components/EventCalendar";
 import EventCard from "@/components/EventCard";
 import EventDialog from "@/components/EventDialog";
 import PageHero from "@/components/PageHero";
+import PushToggle from "@/components/PushToggle";
 
 const MONTHS = [
   "Januar",
@@ -44,6 +45,25 @@ export default function Eventkalender() {
   const [selected, setSelected] = useState<EventDTO | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const favorites = useFavorites();
+
+  // Deep link: /eventkalender?event=<id> (what a push notification opens)
+  // shows that event's popup once the events have loaded. Read straight from
+  // the address bar so the page doesn't depend on the router for it.
+  const [linkedId, setLinkedId] = useState(() =>
+    new URLSearchParams(window.location.search).get("event"),
+  );
+  const linkedEvent =
+    linkedId && events ? (events.find((e) => e.id === linkedId) ?? null) : null;
+  const dialogEvent = selected ?? linkedEvent;
+
+  function closeDialog() {
+    setSelected(null);
+    if (linkedId) {
+      // Drop ?event= so a reload doesn't reopen the popup.
+      setLinkedId(null);
+      window.history.replaceState(window.history.state, "", window.location.pathname);
+    }
+  }
 
   // Filters.
   const [query, setQuery] = useState("");
@@ -139,6 +159,12 @@ export default function Eventkalender() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* "Bei neuen Events benachrichtigen" — renders nothing where push
+            isn't available. */}
+        <div className="mb-5">
+          <PushToggle />
+        </div>
+
         {/* Search + filters: a tidy 2-column grid on phones (search full
             width, dropdowns 2×2), one wrapping row from md up. */}
         <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:items-center md:gap-3 mb-6">
@@ -274,7 +300,7 @@ export default function Eventkalender() {
         )}
       </div>
 
-      <EventDialog event={selected} onClose={() => setSelected(null)} />
+      <EventDialog event={dialogEvent} onClose={closeDialog} />
     </div>
   );
 }

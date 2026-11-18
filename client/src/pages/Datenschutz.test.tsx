@@ -23,5 +23,9 @@ describe("Datenschutz", () => {
     // Our actual hosting provider is named.
     expect(screen.getByText(/Render Services, Inc\./)).toBeInTheDocument();
     expect(screen.queryByText(/netcup/i)).not.toBeInTheDocument();
+    // Push notifications and on-device storage are explained.
+    expect(
+      screen.getByRole("heading", { name: "Push-Benachrichtigungen" }),
+    ).toBeInTheDocument();
   });
 });

@@ -9,8 +9,12 @@
 // R2. Render and Cloudflare are US companies, so US transfers are covered by
 // their DPAs (Standardvertragsklauseln / EU-US Data Privacy Framework).
 // If a service moves region or provider, update section 2 "Hosting".
+//
+// Push notifications (AW-84, section 4): delivery runs through the browser
+// vendors' push services (Google FCM, Apple, Mozilla, Microsoft). Have the
+// Datenschutzbeauftragte/r confirm the wording on the US transfer.
 
-const STAND = "Oktober 2026";
+const STAND = "November 2026";
 
 export default function Datenschutz() {
   return (
@@ -427,6 +431,56 @@ export default function Datenschutz() {
       <p>
         Sofern weitere Cookies und Dienste auf dieser Website eingesetzt werden,
         k&ouml;nnen Sie dies dieser Datenschutzerkl&auml;rung entnehmen.
+      </p>
+      <h3>Lokale Speicherung, App-Installation und Offline-Nutzung</h3>{" "}
+      <p>
+        Sie k&ouml;nnen diese Website als App auf Ihrem Ger&auml;t installieren
+        (&bdquo;Zum Home-Bildschirm&ldquo;). Daf&uuml;r und f&uuml;r die
+        Offline-Nutzung legt Ihr Browser einen sogenannten Service Worker und
+        einen Zwischenspeicher (Cache) auf Ihrem Ger&auml;t an. Darin werden
+        ausschlie&szlig;lich Programmdateien der Website sowie &ouml;ffentliche
+        Inhalte gespeichert, die Sie bereits aufgerufen haben (z.&nbsp;B.
+        Veranstaltungen, Seitentexte, Bilder). Au&szlig;erdem speichert die
+        Website lokal, welche Ersti-Schritte Sie abgehakt und ob Sie den
+        App-Hinweis ausgeblendet haben. Diese Daten verbleiben auf Ihrem
+        Ger&auml;t und werden nicht an uns &uuml;bermittelt.
+      </p>{" "}
+      <p>
+        Die Speicherung erfolgt auf Grundlage von &sect; 25 Abs. 2 Nr. 2 TDDDG,
+        da sie f&uuml;r die von Ihnen gew&uuml;nschte Funktion unbedingt
+        erforderlich ist. Sie k&ouml;nnen diese Daten jederzeit l&ouml;schen,
+        indem Sie die App entfernen oder die Websitedaten in den Einstellungen
+        Ihres Browsers l&ouml;schen.
+      </p>
+      <h3>Push-Benachrichtigungen</h3>{" "}
+      <p>
+        Auf Wunsch informieren wir Sie per Push-Benachrichtigung &uuml;ber neue
+        Veranstaltungen. Dazu ist Ihre Einwilligung erforderlich, die Sie
+        &uuml;ber die Schaltfl&auml;che &bdquo;Bei neuen Events
+        benachrichtigen&ldquo; und die anschlie&szlig;ende Abfrage Ihres Browsers
+        erteilen.
+      </p>{" "}
+      <p>
+        Dabei erzeugt Ihr Browser eine Empfangsadresse (Push-Abonnement) beim
+        Push-Dienst Ihres Browser- bzw. Ger&auml;teherstellers (z.&nbsp;B.
+        Google, Apple, Mozilla oder Microsoft). Wir speichern ausschlie&szlig;lich
+        diese Adresse, die zugeh&ouml;rigen technischen Schl&uuml;ssel und den
+        Zeitpunkt der Anmeldung &ndash; keinen Namen, keine E-Mail-Adresse und
+        keine Verkn&uuml;pfung mit einem Benutzerkonto. Zum Versand
+        &uuml;bermitteln wir den Inhalt der Benachrichtigung (Titel, Datum und
+        Ort der Veranstaltung) verschl&uuml;sselt an diesen Push-Dienst, der sie
+        an Ihr Ger&auml;t zustellt. Da die Anbieter teilweise ihren Sitz in den
+        USA haben, ist eine &Uuml;bermittlung von Daten in die USA nicht
+        ausgeschlossen.
+      </p>{" "}
+      <p>
+        Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO,
+        &sect; 25 Abs. 1 TDDDG). Sie k&ouml;nnen sie jederzeit widerrufen, indem
+        Sie die Benachrichtigungen &uuml;ber dieselbe Schaltfl&auml;che oder in
+        den Einstellungen Ihres Browsers bzw. Ger&auml;ts ausschalten. Beim
+        Ausschalten &uuml;ber die Schaltfl&auml;che l&ouml;schen wir Ihr
+        Abonnement sofort; ung&uuml;ltig gewordene Abonnements l&ouml;schen wir
+        automatisch beim n&auml;chsten Versand.
       </p>
       <h3>Kontaktformular</h3>{" "}
       <p>

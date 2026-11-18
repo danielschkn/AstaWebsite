@@ -139,6 +139,8 @@ describe("EventForm — create mode", () => {
       startsAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
     });
     expect(input.price).toBeUndefined();
+    // "Abonnenten benachrichtigen" is ticked by default for new events.
+    expect(input.notify).toBe(true);
     expect(file).toBeNull();
 
     // Navigated back to the list.

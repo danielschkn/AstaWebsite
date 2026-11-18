@@ -44,10 +44,23 @@ Hier pflegst du den Veranstaltungskalender.
    darf mehrere Kategorien haben.
 5. Wenn eine Anmeldung nötig ist, trag eine Anmelde-E-Mail-Adresse ein – dann
    erscheint auf der Seite ein „Anmelden"-Button.
-6. Speichern.
+6. **Abonnenten benachrichtigen** (standardmäßig angehakt): Alle, die in der App
+   Benachrichtigungen eingeschaltet haben, bekommen beim Speichern sofort eine
+   Push-Nachricht „Neues Event: …“. Prüf Titel, Datum und Ort deshalb vorher –
+   eine verschickte Nachricht lässt sich nicht zurückholen. Für Test-Einträge
+   oder nachgetragene alte Events den Haken entfernen.
+7. Speichern.
 
 **Bearbeiten oder löschen:** In der Event-Liste findest du zu jeder Veranstaltung
-die Möglichkeit zum Bearbeiten oder Löschen.
+die Möglichkeit zum Bearbeiten oder Löschen. Beim Bearbeiten wird keine neue
+Benachrichtigung verschickt.
+
+## Die Website als App
+
+Studierende können die Website kostenlos als App auf ihr Handy holen – ohne App
+Store. Die Anleitung für iPhone und Android steht auf **asta-rac.com/app**
+(gut für einen QR-Code auf Plakaten). Die App startet vom Home-Bildschirm,
+funktioniert offline und kann bei neuen Events benachrichtigen.
 
 ## Protokolle
 

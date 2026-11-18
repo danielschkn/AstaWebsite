@@ -91,6 +91,19 @@ describe("Eventkalender", () => {
     expect(await screen.findByText("Mo")).toBeInTheDocument();
   });
 
+  it("opens the event from a notification link (?event=<id>) and clears it on close", async () => {
+    const user = userEvent.setup();
+    window.history.pushState({}, "", "/eventkalender?event=cal");
+    render(<Eventkalender />);
+
+    const dialog = await screen.findByRole("dialog");
+    expect(within(dialog).getByText("Kalender Event")).toBeInTheDocument();
+
+    await user.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(window.location.search).toBe("");
+  });
+
   it("opens the event popup when a poster is clicked", async () => {
     const user = userEvent.setup();
     render(<Eventkalender />);

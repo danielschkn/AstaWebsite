@@ -83,6 +83,11 @@ export default function Footer() {
                 Kontakt
               </Link>
             </li>
+            <li>
+              <Link to="/app" className="hover:underline">
+                App installieren
+              </Link>
+            </li>
           </ul>
         </div>
 

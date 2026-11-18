@@ -20,6 +20,7 @@ const TITLES: Record<string, string> = {
   "/barrierefreiheit": "Barrierefreiheit",
   "/impressum": "Impressum",
   "/datenschutz": "Datenschutz",
+  "/app": "App",
   "/login": "Login",
   "/signup": "Registrieren",
   "/profile": "Mein Profil",

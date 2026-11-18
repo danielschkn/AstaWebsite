@@ -70,6 +70,20 @@ model Favorite {
   @@unique([userId, eventId])
 }
 
+// One browser/phone that turned on "Bei neuen Events benachrichtigen".
+// Anonymous on purpose — no link to a user, no name or e-mail: `endpoint` is
+// the delivery address at the browser's push service (Google, Apple,
+// Mozilla …), p256dh/auth are the keys to encrypt messages for that device.
+// Rows are deleted on unsubscribe, or automatically when the push service
+// reports the address as gone (see server/push/send.ts).
+model PushSubscription {
+  id        String   @id @default(uuid())
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+}
+
 model Page {
   id           String        @id @default(uuid())
   slug         String        @unique

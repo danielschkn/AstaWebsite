@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import Asta from "./pages/gremien/Asta";
 import Stupa from "./pages/gremien/Stupa";
 import Fachschaften from "./pages/gremien/Fachschaften";
+import AppInstall from "./pages/AppInstall";
 
 // Auth + admin pages — code-split (lazy). Anonymous visitors never download
 // these chunks; they load on demand when the route is visited.
@@ -62,6 +63,7 @@ function App() {
         <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
         <Route path="/impressum" element={<Impressum />} />
         <Route path="/datenschutz" element={<Datenschutz />} />
+        <Route path="/app" element={<AppInstall />} />
 
         {/* Lazy routes share one Suspense fallback. */}
         <Route

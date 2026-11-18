@@ -11,6 +11,7 @@ describe("pageTitle", () => {
   it("prefixes known pages and ignores a trailing slash", () => {
     expect(pageTitle("/eventkalender")).toBe("Eventkalender · AStA Remagen");
     expect(pageTitle("/gremien/stupa/")).toBe("StuPa · AStA Remagen");
+    expect(pageTitle("/app")).toBe("App · AStA Remagen");
   });
 
   it("groups all admin pages and falls back for unknown paths", () => {

@@ -26,6 +26,11 @@ export interface EventFormInput {
   categories?: string[];
   /** Email for registration; "" = no registration required. */
   registrationEmail?: string;
+  /**
+   * Create only: send a "Neues Event" push to all subscribers (server sends
+   * it only for upcoming events). Sent as "true"/"false".
+   */
+  notify?: boolean;
 }
 
 /**
